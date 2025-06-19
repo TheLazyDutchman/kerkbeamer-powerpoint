@@ -1,23 +1,48 @@
-import SlideShow from "slideshow";
-import url, { URL } from "url";
+import Slideshow from "slideshow";
+import url, { URL } from "node:url";
 import { spawn } from "node:child_process";
 
+class PowerPoint {
+	slideshow;
 
-var runner_url = new URL("runner/target/release/runner.exe", import.meta.url);
-var runner_path = url.fileURLToPath(runner_url);
-var runner = spawn(runner_path);
+	constructor() {
+		const runner_url = new URL("runner/target/release/runner.exe", import.meta.url);
+		const runner_path = url.fileURLToPath(runner_url);
+		const runner = spawn(runner_path);
 
-runner.stdout.on("data", (data) => {
-	console.log(`From runner: ${data}`);
-	if (data == "Spawned\n") {
-			var slideshow = new SlideShow("powerpoint");
-			console.log(slideshow);
-			slideshow.boot()
-				.then(() => slideshow.open("test.pptx"))
-				.then(() => slideshow.goto(2))
-				.then(() => process.exit());
-	} else {
-		console.log(`Could not handle: ${data}`);
+		return new Promise((resolve, reject) => {
+			runner.stdout.on("data", (data) => {
+				if (data == "Spawned\n") {
+					this.slideshow = new Slideshow("powerpoint");
+
+					resolve(this);
+				}
+			})
+		}).then((_) => {
+			this.slideshow.boot();
+			return this;
+		});
 	}
-});
-runner.on("close", (code) => console.log(`Runner exited with code: ${code}`));
+
+	open(path) {
+		return this.slideshow.open(path).catch((e) => console.log(`Got an error when opening slide at path '${path}': ${e}`));
+	}
+
+	goto(slide) {
+		return this.slideshow.goto(slide).catch((e) => console.log(`Got an error when moving through the slide: ${e}`))
+	}
+}
+
+async function run() {
+	let powerpoint = await new PowerPoint();
+
+	console.log("Opened PowerPoint");
+	await powerpoint.open("TestData/Test.pptx");
+	console.log("Opened Presentation");
+
+	await powerpoint.goto(3);
+
+	process.exit();
+}
+
+run();

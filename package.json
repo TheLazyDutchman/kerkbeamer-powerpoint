@@ -2,6 +2,7 @@
   "name": "kerkbeamer-powerpoint",
   "version": "1.0.0",
   "description": "Controlling a PowerPoint instance in the background",
+  "types": "types/index.d.ts",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -14,5 +15,14 @@
   "dependencies": {
     "slideshow": "^1.2.2"
   },
-  "type": "module"
+  "exports": {
+    ".": {
+      "types": "./types/index.d.ts"
+    }
+  },
+  "type": "module",
+  "devDependencies": {
+    "del-cli": "^6.0.0",
+    "typescript": "^5.8.3"
+  }
 }
