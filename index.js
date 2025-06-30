@@ -1,35 +1,44 @@
-import Slideshow from "slideshow";
 import url, { URL } from "node:url";
 import { spawn } from "node:child_process";
 
 class PowerPoint {
-	slideshow;
+	inner
 
 	constructor() {
-		const runner_url = new URL("runner/target/release/runner.exe", import.meta.url);
+		const runner_url = new URL("runner/target/x86_64-pc-windows-msvc/release/runner.exe", import.meta.url);
 		const runner_path = url.fileURLToPath(runner_url);
-		const runner = spawn(runner_path);
+		this.inner = spawn(runner_path, ["node_modules/slideshow/slideshow-cli.js"]);
 
 		return new Promise((resolve, reject) => {
-			runner.stdout.on("data", (data) => {
-				if (data == "Spawned\n") {
-					this.slideshow = new Slideshow("powerpoint");
-
+			this.inner.stdout.on("data", (data) => {
+				console.log(`Read: ${data}`);
+				if (data.includes("Spawned")) {
 					resolve(this);
 				}
 			})
-		}).then((_) => {
-			this.slideshow.boot();
-			return this;
 		});
 	}
 
-	open(path) {
-		return this.slideshow.open(path).catch((e) => console.log(`Got an error when opening slide at path '${path}': ${e}`));
+	async wait(value) {
+		return new Promise((resolve, reject) => {
+			this.inner.stdout.on("data", (data) => {
+				if (data.includes(value)) {
+					resolve({})
+				}
+			})
+		})
 	}
 
-	goto(slide) {
-		return this.slideshow.goto(slide).catch((e) => console.log(`Got an error when moving through the slide: ${e}`))
+	async open(path) {
+		this.inner.stdin.write(`open ${path}\r\n`);
+		await this.wait("slideshow(powerpoint)>");
+		this.inner.stdin.write("start\n");
+		await this.wait("slideshow(powerpoint)>");
+	}
+
+	async goto(slide) {
+		this.inner.stdin.write(`goto ${slide}\r\n`);
+		await this.wait("slideshow(powerpoint)>");
 	}
 }
 
