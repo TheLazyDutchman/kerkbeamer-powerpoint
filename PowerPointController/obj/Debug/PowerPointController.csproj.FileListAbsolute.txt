@@ -1,0 +1,10 @@
+D:\Users\Jochem\Desktop\Projects\kerkbeamer-powerpoint\PowerPointController\bin\Debug\PowerPointController.exe.config
+D:\Users\Jochem\Desktop\Projects\kerkbeamer-powerpoint\PowerPointController\bin\Debug\PowerPointController.exe
+D:\Users\Jochem\Desktop\Projects\kerkbeamer-powerpoint\PowerPointController\bin\Debug\PowerPointController.pdb
+D:\Users\Jochem\Desktop\Projects\kerkbeamer-powerpoint\PowerPointController\bin\Debug\websocket-sharp.dll
+D:\Users\Jochem\Desktop\Projects\kerkbeamer-powerpoint\PowerPointController\bin\Debug\websocket-sharp.xml
+D:\Users\Jochem\Desktop\Projects\kerkbeamer-powerpoint\PowerPointController\obj\Debug\PowerPointController.csproj.AssemblyReference.cache
+D:\Users\Jochem\Desktop\Projects\kerkbeamer-powerpoint\PowerPointController\obj\Debug\PowerPointController.csproj.CoreCompileInputs.cache
+D:\Users\Jochem\Desktop\Projects\kerkbeamer-powerpoint\PowerPointController\obj\Debug\PowerPointController.csproj.CopyComplete
+D:\Users\Jochem\Desktop\Projects\kerkbeamer-powerpoint\PowerPointController\obj\Debug\PowerPointController.exe
+D:\Users\Jochem\Desktop\Projects\kerkbeamer-powerpoint\PowerPointController\obj\Debug\PowerPointController.pdb
