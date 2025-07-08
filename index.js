@@ -1,57 +1,71 @@
-import url, { URL } from "node:url";
-import { spawn } from "node:child_process";
+import { spawn } from 'node:child_process'
+import WebSocket from 'ws'
+import { get } from 'http';
+import path from 'node:path';
 
-class PowerPoint {
-	inner
+export default class PowerPoint {
+	ws
+	msgs
 
-	constructor() {
-		const runner_url = new URL("runner/target/x86_64-pc-windows-msvc/release/runner.exe", import.meta.url);
-		const runner_path = url.fileURLToPath(runner_url);
-		this.inner = spawn(runner_path, ["node_modules/slideshow/slideshow-cli.js"]);
-
-		return new Promise((resolve, reject) => {
-			this.inner.stdout.on("data", (data) => {
-				console.log(`Read: ${data}`);
-				if (data.includes("Spawned")) {
-					resolve(this);
-				}
-			})
+	constructor(file_path) {
+		let global_path = path.resolve(file_path);
+		console.log("Opening powerpoint at: ", global_path);
+		let child = spawn('PowerPointController/bin/Release/PowerPointController.exe', [global_path]);
+		child.stdout.on('data',  (data) => {
+			console.log(`Got data in child: ${data}`);
 		});
+		child.stderr.on('data',  (data) => {
+			console.error(`Got error in child: ${data}`);
+		});
+
+		function sleepFor(sleepDuration){
+			var now = new Date().getTime();
+			while(new Date().getTime() < now + sleepDuration){ /* Do nothing */ }
+		}
+
+		sleepFor(2000);
+
+		// let request = get({host: 'localhost', port: '8181'});
+		// request.onerror = console.error;
+
+		// sleepFor(2000);
+
+		this.ws = new WebSocket('ws://localhost:8181/ppt');
+		this.msgs = [];
+
+		this.ws.onmessage = (event) => {
+		  if (event.data.startsWith('slide:')) {
+		    const current = event.data.split(':')[1];
+		    console.log('Actieve dia:', current);
+		    // update UI of renderer state
+		  }
+		};
+
+		this.ws.onopen = () => {
+			while (this.msgs.len() > 0) {
+				this.ws.send(this.msgs.shift());
+			}
+		};
+
+		this.ws.onerror = console.error
 	}
 
-	async wait(value) {
-		return new Promise((resolve, reject) => {
-			this.inner.stdout.on("data", (data) => {
-				if (data.includes(value)) {
-					resolve({})
-				}
-			})
-		})
+	// Voor besturing vanuit UI:
+	nextSlide() {
+	  send(this, 'next');
 	}
 
-	async open(path) {
-		this.inner.stdin.write(`open ${path}\r\n`);
-		await this.wait("slideshow(powerpoint)>");
-		this.inner.stdin.write("start\n");
-		await this.wait("slideshow(powerpoint)>");
-	}
-
-	async goto(slide) {
-		this.inner.stdin.write(`goto ${slide}\r\n`);
-		await this.wait("slideshow(powerpoint)>");
+	goToSlide(n) {
+	  send(this, `goto:${n}`);
 	}
 }
 
-async function run() {
-	let powerpoint = await new PowerPoint();
-
-	console.log("Opened PowerPoint");
-	await powerpoint.open("TestData/Test.pptx");
-	console.log("Opened Presentation");
-
-	await powerpoint.goto(3);
-
-	process.exit();
+function send(pp, msg) {
+	if (pp.ws.readyState !== 1) {
+		pp.msgs.push(msg);
+	} else {
+		pp.ws.send(msg);
+	}
 }
 
-run();
+let pp = new PowerPoint("TestData\\Test.pptx");

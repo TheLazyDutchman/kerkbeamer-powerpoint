@@ -2,18 +2,25 @@
 using WebSocketSharp.Server;
 using WebSocketSharp;
 using Microsoft.Office.Core;
+using System.Runtime.InteropServices;
+using System;
 
 namespace PowerPointController
 {
+
     public class Controller
     {
         private Application _app;
         private Presentation _presentation;
         private SlideShowWindow _slideshow;
         private WebSocketServer _wss;
+ 
+        [DllImport("user32.dll")]
+        static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
 
         public void Start(string path)
         {
+
             // Start WebSocket server
             _wss = new WebSocketServer(8181);
             _wss.AddWebSocketService<PowerPointWebSocket>("/ppt");
@@ -33,6 +40,8 @@ namespace PowerPointController
             settings.ShowWithAnimation = MsoTriState.msoTrue;
             _slideshow = settings.Run();
             _slideshow.View.GotoSlide(1); // naar begin
+
+            MoveWindow((IntPtr)_slideshow.HWND, -2000, -2000, 800, 600, false);
 
             _app.SlideShowNextSlide += OnNextSlide;
         }

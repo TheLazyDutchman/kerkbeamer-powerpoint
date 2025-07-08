@@ -13,9 +13,6 @@
   ],
   "author": "jjpouwels2004@gmail.com",
   "license": "MIT",
-  "dependencies": {
-    "slideshow": "^1.2.2"
-  },
   "exports": {
     ".": {
       "types": "./types/index.d.ts"
@@ -25,5 +22,8 @@
   "devDependencies": {
     "del-cli": "^6.0.0",
     "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "ws": "^8.18.3"
   }
 }

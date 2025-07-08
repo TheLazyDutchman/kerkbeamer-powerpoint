@@ -1,10 +1,10 @@
 D:\Users\Jochem\Desktop\Projects\kerkbeamer-powerpoint\PowerPointController\bin\Release\PowerPointController.exe.config
 D:\Users\Jochem\Desktop\Projects\kerkbeamer-powerpoint\PowerPointController\bin\Release\PowerPointController.exe
 D:\Users\Jochem\Desktop\Projects\kerkbeamer-powerpoint\PowerPointController\bin\Release\PowerPointController.pdb
-D:\Users\Jochem\Desktop\Projects\kerkbeamer-powerpoint\PowerPointController\bin\Release\websocket-sharp.dll
-D:\Users\Jochem\Desktop\Projects\kerkbeamer-powerpoint\PowerPointController\bin\Release\websocket-sharp.xml
 D:\Users\Jochem\Desktop\Projects\kerkbeamer-powerpoint\PowerPointController\obj\Release\PowerPointController.csproj.AssemblyReference.cache
 D:\Users\Jochem\Desktop\Projects\kerkbeamer-powerpoint\PowerPointController\obj\Release\PowerPointController.csproj.CoreCompileInputs.cache
 D:\Users\Jochem\Desktop\Projects\kerkbeamer-powerpoint\PowerPointController\obj\Release\PowerPointController.csproj.CopyComplete
 D:\Users\Jochem\Desktop\Projects\kerkbeamer-powerpoint\PowerPointController\obj\Release\PowerPointController.exe
 D:\Users\Jochem\Desktop\Projects\kerkbeamer-powerpoint\PowerPointController\obj\Release\PowerPointController.pdb
+D:\Users\Jochem\Desktop\Projects\kerkbeamer-powerpoint\PowerPointController\bin\Release\websocket-sharp.dll
+D:\Users\Jochem\Desktop\Projects\kerkbeamer-powerpoint\PowerPointController\bin\Release\websocket-sharp.xml
