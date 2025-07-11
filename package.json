@@ -5,23 +5,21 @@
   "types": "types/index.d.ts",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "prepare": "cd runner && cargo build --release"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
     "powerpoint"
   ],
   "author": "jjpouwels2004@gmail.com",
   "license": "MIT",
-  "exports": {
-    ".": {
-      "types": "./types/index.d.ts"
-    }
-  },
   "type": "module",
   "devDependencies": {
     "del-cli": "^6.0.0",
     "typescript": "^5.8.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheLazyDutchman/kerkbeamer-powerpoint.git"
   },
   "dependencies": {
     "ws": "^8.18.3"
